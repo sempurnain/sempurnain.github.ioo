@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peta Konsep Digital - Pendidikan Lingkungan Hidup</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-dark: #081c15;
+            --main-green: #1b4332;
+            --leaf-green: #2d6a4f;
+            --bright-green: #40916c;
+            --mint: #d8f3dc;
+            --glass-white: rgba(255, 255, 255, 0.95);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* --- Custom Scrollbar --- */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--primary-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--leaf-green); border-radius: 10px; }
+
+        /* --- Header & Navigation --- */
+        header {
+            position: fixed;
+            top: 0; width: 100%;
+            background: rgba(8, 28, 21, 0.8);
+            backdrop-filter: blur(15px);
+            z-index: 2000;
+            border-bottom: 2px solid var(--leaf-green);
+        }
+
+        nav {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 5px 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        nav a:hover { color: var(--mint); transform: translateY(-2px); }
+
+        /* Tombol Profil */
+        .btn-profile {
+            background: var(--bright-green);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+            border: none;
+        }
+
+        .btn-profile:hover {
+            background: white;
+            color: var(--main-green);
+            transform: scale(1.05);
+        }
+
+        /* --- Laman Profil (Overslide Atas) --- */
+        .profile-overlay {
+            position: fixed;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--glass-white);
+            backdrop-filter: blur(25px);
+            z-index: 3000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: 0.8s cubic-bezier(0.85, 0, 0.15, 1);
+            overflow-y: auto;
+            padding: 60px 20px;
+        }
+
+        .profile-overlay.active { top: 0; }
+
+        .close-profile {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--main-green);
+            transition: 0.3s;
+        }
+        .close-profile:hover { transform: rotate(90deg); color: red; }
+
+        .profile-container { max-width: 900px; margin: 0 auto; }
+        .profile-header { text-align: center; margin-bottom: 40px; }
+        .profile-header img { width: 150px; height: 150px; border-radius: 50%; border: 5px solid var(--bright-green); margin-bottom: 20px; object-fit: cover; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .profile-header h1 { font-size: 2.2rem; color: var(--primary-dark); font-weight: 800; }
+        .profile-header p { font-size: 1.1rem; color: var(--leaf-green); text-align: center; }
+        
+        .profile-section h2 { color: var(--main-green); border-bottom: 2px solid var(--bright-green); padding-bottom: 5px; margin-top: 35px; margin-bottom: 15px; font-size: 1.4rem; font-weight: 700; }
+        .profile-section p, .profile-section li { font-size: 1rem; line-height: 1.8; margin-bottom: 12px; color: #333; }
+        .profile-section ul { padding-left: 25px; margin-bottom: 20px; }
+        .profile-section li { position: relative; list-style: none; }
+        .profile-section li::before { content: "✔"; position: absolute; left: -25px; color: var(--bright-green); font-weight: bold; }
+
+        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+        .contact-link { 
+            display: flex; align-items: center; justify-content: center; gap: 12px; 
+            padding: 15px; background: white; border-radius: 15px;
+            text-decoration: none; color: var(--main-green);
+            font-weight: 600; border: 1px solid #ddd; transition: 0.3s;
+        }
+        .contact-link:hover { background: var(--main-green); color: white; transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        
+        .dark-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2500; display: none; opacity: 0; transition: 0.5s; }
+        .dark-bg.active { display: block; opacity: 1; }
+
+        /* --- Sections Layout --- */
+        section { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 100px 5% 60px; }
+        .container { width: 100%; max-width: 1100px; }
+        .card {
+            background: var(--glass-white);
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.3);
+            position: relative;
+        }
+
+        h1.hero-title { font-size: 4.5rem; color: white; text-align: center; font-weight: 800; line-height: 1.1; margin-bottom: 20px; text-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h2.section-title { font-size: 2.2rem; color: var(--main-green); margin-bottom: 30px; border-bottom: 4px solid var(--bright-green); display: inline-block; padding-bottom: 10px; }
+        h3.sub-title { font-size: 1.3rem; color: var(--leaf-green); margin: 25px 0 15px; display: flex; align-items: center; gap: 10px; }
+        p { font-size: 1.05rem; line-height: 1.8; color: #444; margin-bottom: 15px; text-align: justify; }
+
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .feature-item { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: 0.3s; border: 1px solid #eee; }
+        .feature-item:hover { border-color: var(--bright-green); transform: translateY(-5px); }
+
+        .source-box { background: var(--mint); padding: 15px 20px; border-radius: 15px; margin-top: 10px; border-left: 5px solid var(--leaf-green); font-size: 0.9rem; }
+        .source-link { display: inline-flex; align-items: center; background: var(--main-green); color: white !important; text-decoration: none; padding: 8px 18px; border-radius: 50px; font-size: 0.85rem; margin-top: 10px; transition: 0.3s; }
+        .source-link:hover { background: #000; transform: scale(1.05); }
+
+        @media (max-width: 768px) {
+            h1.hero-title { font-size: 2.5rem; }
+            .card { padding: 25px; }
+            nav a { font-size: 0.6rem; margin: 3px; }
+            .profile-header h1 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#poin1">1. Pengertian</a>
+                <a href="#poin2">2. Tujuan</a>
+                <a href="#poin3">3. Prinsip</a>
+                <a href="#poin4">4. Materi SD</a>
+                <a href="#poin5">5. Metode</a>
+                <a href="#poin6">6. Kegiatan</a>
+                <a href="#poin7">7. Kesimpulan</a>
+            </div>
+            <button class="btn-profile" onclick="toggleProfile()">
+                <i class="fas fa-user-circle"></i> PROFIL
+            </button>
+        </nav>
+    </header>
+
+    <div class="dark-bg" id="darkBg" onclick="toggleProfile()"></div>
+
+    <!-- Profil Panel -->
+    <div class="profile-overlay" id="profilePanel">
+        <div class="close-profile" onclick="toggleProfile()"><i class="fas fa-times"></i></div>
+        <div class="profile-container">
+            <div class="profile-header">
+                <img src="https://ui-avatars.com/api/?name=M+Awaluddin+Kamil&background=1b4332&color=fff&size=150" alt="Profile">
+                <h1>M. Awaluddin Kamil</h1>
+                <p>Mahasiswa PGMI | Calon Pendidik Inspiratif | (NIM)240103110166</p>
+            </div>
+            <div class="profile-section">
+                <h2>PROFIL SINGKAT</h2>
+                <p>Halo, saya M. Awaluddin Kamil, seorang mahasiswa Program Studi Pendidikan Guru Madrasah Ibtidaiyah (PGMI) yang memiliki minat besar dalam dunia pendidikan anak, pengembangan media pembelajaran kreatif, serta kegiatan sosial kemasyarakatan.</p>
+                <p>Saya percaya bahwa pendidikan dasar merupakan fondasi penting dalam membentuk karakter, keterampilan, dan masa depan generasi muda.</p>
+            </div>
+            <div class="profile-section">
+                <h2>TENTANG SAYA</h2>
+                <ul>
+                    <li>Pengembangan media pembelajaran inovatif untuk siswa SD/MI</li>
+                    <li>Pembuatan materi ajar yang menarik dan mudah dipahami anak</li>
+                    <li>Bertanggung jawab, mudah bekerja sama, dan kreatif</li>
+                </ul>
+            </div>
+            <div class="profile-section">
+                <h2>PENDIDIKAN</h2>
+                <p><strong>S1 Pendidikan Guru Madrasah Ibtidaiyah (PGMI)</strong></p>
+                <ul>
+                    <li>Strategi pembelajaran SD/MI & Pengembangan media pendidikan</li>
+                    <li>Pendidikan karakter dan nilai keislaman</li>
+                </ul>
+            </div>
+            <div class="profile-section">
+                <h2>KEAHLIAN</h2>
+                <ul>
+                    <li>Penyusunan perangkat pembelajaran SD/MI</li>
+                    <li>Pembuatan media pembelajaran kreatif</li>
+                    <li>Penggunaan teknologi dasar untuk pembelajaran</li>
+                </ul>
+            </div>
+            <div class="profile-section">
+                <h2>VISI PRIBADI</h2>
+                <p><i>"Menjadi guru Madrasah Ibtidaiyah yang profesional, kreatif, dan berakhlak mulia, serta mampu memberikan kontribusi nyata dalam meningkatkan kualitas pendidikan dasar di Indonesia."</i></p>
+            </div>
+            <div class="profile-section">
+                <h2>KONTAK</h2>
+                <div class="contact-grid">
+                    <a href="https://www.instagram.com/sempurnain_aja" target="_blank" class="contact-link"><i class="fab fa-instagram"></i> Instagram</a>
+                    <a href="https://www.tiktok.com/@sempurnain_aja" target="_blank" class="contact-link"><i class="fab fa-tiktok"></i> TikTok</a>
+                    <a href="https://wa.link/uq3zwz" target="_blank" class="contact-link"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                    <a href="mailto:kmilsempurna@gmail.com" class="contact-link"><i class="fas fa-envelope"></i> Email</a>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 50px; font-size: 0.9rem; color: #666;">Terima kasih telah mengunjungi portofolio saya.</p>
+        </div>
+    </div>
+
+    <!-- Section 0: Home -->
+    <section id="home">
+        <div class="container" style="text-align:center;">
+            <h1 class="hero-title" data-aos="zoom-in">Pendidikan Lingkungan Hidup</h1>
+            <p style="color: white; font-size: 1.4rem; text-align: center; max-width: 900px; margin: 0 auto 30px;" data-aos="fade-up" data-aos-delay="200">Membangun Karakter Peduli Alam melalui Pemahaman Komprehensif dan Aksi Berkelanjutan.</p>
+            <a href="#poin1" class="source-link" style="padding: 15px 40px; font-size: 1.1rem;" data-aos="fade-up" data-aos-delay="400">Pelajari Selengkapnya <i class="fas fa-chevron-down" style="margin-left:10px;"></i></a>
+        </div>
+    </section>
+
+    <!-- Section 1 -->
+    <section id="poin1">
+        <div class="container">
+            <div class="card" data-aos="fade-up">
+                <h2 class="section-title"><i class="fas fa-book"></i> 01. Pengertian PLH</h2>
+                <p>Pendidikan Lingkungan Hidup (PLH) adalah proses pembelajaran yang bertujuan menanamkan pemahaman tentang lingkungan kepada peserta didik agar mereka memiliki pengetahuan, sikap, dan keterampilan untuk menjaga lingkungan secara berkelanjutan.</p>
+                <div class="grid-2">
+                    <div class="feature-item">
+                        <h3 class="sub-title"><i class="fas fa-university"></i> Kementrian LH</h3>
+                        <p>Usaha terencana untuk meningkatkan kesadaran, pengetahuan, serta perilaku peserta didik agar peduli terhadap lingkungan melalui pembiasaan nyata.</p>
+                        <a href="https://dlh.salatiga.go.id/sekolah-adiwiyata/" target="_blank" class="source-link">Sumber: DLH Salatiga</a>
+                    </div>
+                    <div class="feature-item">
+                        <h3 class="sub-title"><i class="fas fa-search"></i> Jurnal Pendidikan</h3>
+                        <p>Menekankan pengalaman langsung dan pembelajaran kontekstual agar siswa memahami hubungan manusia dengan alam secara nyata.</p>
+                        <a href="https://journal.stkipsubang.ac.id/index.php/didaktik/article/view/8257" target="_blank" class="source-link">Baca Jurnal</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2 (Animasi fade-up) -->
+    <section id="poin2">
+        <div class="container">
+            <div class="card" data-aos="fade-up">
+                <h2 class="section-title"><i class="fas fa-bullseye"></i> 02. Tujuan Spesifik</h2>
+                <div class="grid-2">
+                    <div class="feature-item">
+                        <h4>1. Kesadaran & Kepedulian</h4>
+                        <p>Membentuk karakter peduli lingkungan sejak usia dini melalui budaya sekolah bersih.</p>
+                        <a href="https://dlh.salatiga.go.id/sekolah-adiwiyata/" target="_blank" class="source-link">Lihat Program</a>
+                    </div>
+                    <div class="feature-item">
+                        <h4>2. Literasi Lingkungan</h4>
+                        <p>Meningkatkan pengetahuan ekologi mengenai pencemaran dan dampak kerusakan alam.</p>
+                        <a href="https://journal.staihubbulwathan.id/index.php/alishlah/article/view/3887/0" target="_blank" class="source-link">Baca Penelitian</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3 (Animasi fade-up) -->
+    <section id="poin3">
+        <div class="container">
+            <div class="card" data-aos="fade-up">
+                <h2 class="section-title"><i class="fas fa-list-check"></i> 03. Prinsip PLH</h2>
+                <div class="grid-2">
+                    <div class="feature-item">
+                        <ul>
+                            <li><strong>1. Holistik:</strong> Satu kesatuan manusia, alam, dan sosial.</li>
+                            <li><strong>2. Interdisipliner:</strong> Terintegrasi dalam IPA, IPS, & Pancasila.</li>
+                            <li><strong>3. Partisipatif:</strong> Keterlibatan aktif siswa dalam proyek nyata.</li>
+                        </ul>
+                    </div>
+                    <div class="feature-item">
+                        <ul>
+                            <li><strong>4. Kontekstual:</strong> Sesuai kondisi nyata lingkungan siswa.</li>
+                            <li><strong>5. Berkelanjutan:</strong> Pembiasaan baik secara terus menerus.</li>
+                            <li><strong>6. Pengalaman Langsung:</strong> Praktik merawat tanaman.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4 (Animasi fade-up) -->
+    <section id="poin4">
+        <div class="container">
+            <div class="card" data-aos="fade-up">
+                <h2 class="section-title"><i class="fas fa-graduation-cap"></i> 04. Materi SD/MI</h2>
+                <div class="grid-2">
+                    <div class="feature-item">
+                        <h4>Lingkungan Alam & Sosial</h4>
+                        <p>Pemahaman fungsi air, tanah, udara, serta adat masyarakat dalam menjaga kebersihan.</p>
+                        <a href="https://www.wwf.id/sites/default/files/2023-09/Buku%2520PLH%2520Kelas%25202%2520SD.pdf" target="_blank" class="source-link">Buku PLH WWF</a>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Masalah & Upaya Pelestarian</h4>
+                        <p>Edukasi bahaya sampah dan penerapan 3R (Reduce, Reuse, Recycle).</p>
+                        <a href="https://journal.unila.ac.id/index.php/jpmipa/article/view/137" target="_blank" class="source-link">Upaya 3R</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5 (Animasi fade-up) -->
+    <section id="poin5">
+        <div class="container">
+            <div class="card" data-aos="fade-up">
+                <h2 class="section-title"><i class="fas fa-chalkboard-user"></i> 05. Metode Pembelajaran</h2>
+                <div class="grid-2">
+                    <div class="feature-item">
+                        <i class="fas fa-seedling fa-2x" style="color:var(--bright-green)"></i>
+                        <h4>Praktik & Proyek</h4>
+                        <p>Menanam tanaman dan mengelola sampah meningkatkan kepedulian secara signifikan.</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-bus fa-2x" style="color:var(--bright-green)"></i>
+                        <h4>Kunjungan Lapangan</h4>
+                        <p>Mengamati kondisi lingkungan secara langsung untuk pemahaman yang bermakna.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6 (Animasi fade-up) -->
+    <section id="poin6">
+        <div class="container">
+            <div class="card" data-aos="fade-up">
+                <h2 class="section-title"><i class="fas fa-hand-holding-heart"></i> 06. Contoh Aksi Nyata</h2>
+                <div class="grid-2">
+                    <div class="feature-item"><h3>Budaya Bersih</h3><p>Piket kelas dan kerja bakti rutin.</p></div>
+                    <div class="feature-item"><h3>Bank Sampah</h3><p>Pemisahan sampah organik dan anorganik.</p></div>
+                    <div class="feature-item"><h3>Kebun Gizi</h3><p>Pemanfaatan lahan untuk tanaman obat.</p></div>
+                    <div class="feature-item"><h3>Hemat Energi</h3><p>Budaya mematikan lampu dan kran air.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 7 (Animasi fade-up) -->
+    <section id="poin7">
+        <div class="container">
+            <div class="card" data-aos="fade-up" style="background: var(--main-green); color: white;">
+                <h2 class="section-title" style="color: white; border-color: white;"><i class="fas fa-flag-checkered"></i> 07. Kesimpulan</h2>
+                <p style="color: white; font-size: 1.2rem;">Pendidikan Lingkungan Hidup bukan sekadar teori, melainkan investasi karakter bagi generasi mendatang. Dengan menggabungkan pengetahuan, sikap, dan aksi nyata, kita membentuk siswa yang bijaksana dalam berinteraksi dengan alam.</p>
+                <div class="source-box" style="background: rgba(255,255,255,0.1); border-color: white; color: white;">PLH di SD merupakan fondasi utama terciptanya budaya Adiwiyata yang berkelanjutan di Indonesia.</div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: false, mirror: true });
+
+        function toggleProfile() {
+            const profile = document.getElementById('profilePanel');
+            const bg = document.getElementById('darkBg');
+            profile.classList.toggle('active');
+            bg.classList.toggle('active');
+            document.body.style.overflow = profile.classList.contains('active') ? 'hidden' : 'auto';
+        }
+    </script>
+</body>
+</html>
